@@ -1,6 +1,5 @@
 <script setup>
 import UserProfileTableTextareaTd from "@/components/table/UserProfileTableTextareaTd.vue";
-import { ref } from "vue";
 
 const props = defineProps({
     isEdit: {

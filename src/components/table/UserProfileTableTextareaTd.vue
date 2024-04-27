@@ -30,7 +30,7 @@ watch(text, newVal => {
     <tr>
         <td>{{ title }}</td>
         <td v-if="isEdit">
-            <v-textarea v-model="text" rows="1" auto-grow class="py-2" density="compact" variant="solo" hide-details></v-textarea>
+            <v-textarea v-model="text" rows="1" auto-grow class="py-2" density="compact" variant="solo" hide-details readonly></v-textarea>
         </td>
         <td v-else>
             {{ text }}

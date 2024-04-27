@@ -12,14 +12,6 @@ defineProps({
     }
 });
 
-function save() {
-    if (!confirm("정말로 저장하시겠습니까?")) {
-        return;
-    }
-    const data = store.getters.getProfile();
-    alert("저장 API / data : " + JSON.stringify(data));
-}
-
 function stop() {
     if (!confirm("정말로 정지하시겠습니까?")) {
         return;
@@ -37,7 +29,6 @@ function stop() {
                         <v-card-title class="text-md-h6 ">{{ store.getters.getProfile("name") }}</v-card-title>
                     </v-col>
                     <v-col v-if="isEdit" class="d-flex justify-end">
-                        <v-btn size="small" class="ma-1" color="green" @click="save">저장</v-btn>
                         <v-btn size="small" class="ma-1" color="red" @click="stop">정지</v-btn>
                     </v-col>
                 </v-row>
@@ -45,10 +36,8 @@ function stop() {
         </v-col>
         <v-col>
             <v-row>
-                <v-col cols="6">
+                <v-col>
                     <user-profile-table :is-edit="isEdit" />
-                </v-col>
-                <v-col cols="6">
                     <UserProfilePhoto />
                 </v-col>
             </v-row>

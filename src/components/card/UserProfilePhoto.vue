@@ -22,61 +22,24 @@ const getHeartIcon = (type, src) => (selection[type] === src ? "mdi-heart" : "md
 
 <template>
     <v-card>
-        <v-container style="display:flex;flex-direction:column;gap:0.5rem">
+        <v-container style="display:flex;flex-direction:column;">
             <!-- 얼굴 목록 -->
             <v-container>
                 <v-item-group v-model="selection" multiple="true" max="2">
-                    <v-row style="display: flex;flex-direction: column;">
-                        <p class="photo-list-title">(1) 얼굴 사진</p>
-                        <p class="photo-list-info">얼굴이 선명하게 나온 사진 (마스크 X)</p>
+                    <v-row>
+                        <p class="photo-list-title">사진</p>
                     </v-row>
-                    <v-row class="flex-gap">
-                        <v-item v-for="(src, i) in mockImages.face" :key="i">
-                            <v-img :src="src" cover aspect-ratio="1">
-                                <div class="d-flex w-100 justify-space-between">
-                                    <v-btn icon="mdi-arrow-expand" @click.prevent="onOpenDialog(src)"></v-btn>
-                                    <v-btn :icon="getHeartIcon('face', src)" @click.prevent="onSelectPhoto('face', src)"></v-btn>
-                                </div>
-                            </v-img>
-                        </v-item>
-                    </v-row>
-                </v-item-group>
-            </v-container>
-            <!-- 전신 목록 -->
-            <v-container>
-                <v-item-group v-model="selection" multiple="true" max="2">
-                    <v-row style="display: flex;flex-direction: column;">
-                        <p class="photo-list-title">(2) 전신 사진</p>
-                        <p class="photo-list-info">전신이 다 드러나는 사진!</p>
-                    </v-row>
-                    <v-row class="flex-gap">
-                        <v-item v-for="(src, i) in mockImages.full" :key="i" v-slot="{ isSelected, toggle }">
-                            <v-img :src="src" cover aspect-ratio="1">
-                                <div class="d-flex w-100 justify-space-between">
-                                    <v-btn icon="mdi-arrow-expand" @click.prevent="onOpenDialog(src)"></v-btn>
-                                    <v-btn :icon="isSelected ? 'mdi-heart' : 'mdi-heart-outline'" @click.prevent="toggle"></v-btn>
-                                </div>
-                            </v-img>
-                        </v-item>
-                    </v-row>
-                </v-item-group>
-            </v-container>
-            <!-- 어필 사진 목록 -->
-            <v-container>
-                <v-item-group v-model="selection" multiple="true" max="2">
-                    <v-row style="display: flex;flex-direction: column;">
-                        <p class="photo-list-title">(3) 매력어필 사진</p>
-                        <p class="photo-list-info">취미 생활, 스튜디오 사진 등</p>
-                    </v-row>
-                    <v-row class="flex-gap">
-                        <v-item v-for="(src, i) in mockImages.appeal" :key="i" v-slot="{ isSelected, toggle }">
-                            <v-img :src="src" cover aspect-ratio="1">
-                                <div class="d-flex w-100 justify-space-between">
-                                    <v-btn icon="mdi-arrow-expand" @click.prevent="onOpenDialog(src)"></v-btn>
-                                    <v-btn :icon="isSelected ? 'mdi-heart' : 'mdi-heart-outline'" @click.prevent="toggle"></v-btn>
-                                </div>
-                            </v-img>
-                        </v-item>
+                    <v-row>
+                        <v-col v-for="(src, i) in mockImages.profileImageURIs" :key="i" cols="12" sm="6" md="4" lg="4" xl="2">
+                            <v-item>
+                                <v-img :src="src" cover aspect-ratio="1">
+                                    <div class="d-flex w-100 justify-space-between">
+                                        <v-btn icon="mdi-arrow-expand" @click.prevent="onOpenDialog(src)"></v-btn>
+                                        <v-btn :icon="getHeartIcon('face', src)" @click.prevent="onSelectPhoto('face', src)"></v-btn>
+                                    </div>
+                                </v-img>
+                            </v-item>
+                        </v-col>
                     </v-row>
                 </v-item-group>
             </v-container>
@@ -84,11 +47,12 @@ const getHeartIcon = (type, src) => (selection[type] === src ? "mdi-heart" : "md
             <v-container>
                 <v-item-group v-model="selection" multiple="true" max="2">
                     <v-row style="display: flex;flex-direction: column;">
-                        <p class="photo-list-title">(4) 신원검증 서류</p>
+                        <p class="photo-list-title">신원검증 서류</p>
                         <p class="photo-list-info">신분증, 재직 서류 모두 필수 제출</p>
                     </v-row>
+
                     <v-row class="flex-gap">
-                        <v-item v-for="(src, i) in mockImages.identityVerification" :key="i" v-slot="{ isSelected, toggle }">
+                        <v-item v-for="(src, i) in mockImages.identityVerificationURI" :key="i" v-slot="{ isSelected, toggle }">
                             <v-img :src="src" cover aspect-ratio="1">
                                 <div class="d-flex w-100 justify-space-between">
                                     <v-btn icon="mdi-arrow-expand" @click.prevent="onOpenDialog(src)"></v-btn>
@@ -113,6 +77,7 @@ const getHeartIcon = (type, src) => (selection[type] === src ? "mdi-heart" : "md
 <style>
 .flex-gap {
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
 }
 .photo-list-title {

@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import UserInfoCard from "@/components/card/UserInformationCard.vue";
 import UserPayHistoryCard from "@/views/user/card/UserPayHistoryCard.vue";
-import UserConsultHistoryCard from "@/components/card/UserConsultHistoryCard.vue";
+// import UserConsultHistoryCard from "@/components/card/UserConsultHistoryCard.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -51,11 +51,12 @@ function clickListBtn() {
                         <user-pay-history-card />
                     </v-col>
                 </v-row>
+                <!-- 상담 이력-추후 개발
                 <v-row>
                     <v-col>
                         <user-consult-history-card />
                     </v-col>
-                </v-row>
+                </v-row> -->
             </v-col>
         </v-row>
     </div>
