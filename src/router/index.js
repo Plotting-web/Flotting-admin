@@ -52,17 +52,17 @@ const router = createRouter({
     routes
 });
 
-// router.beforeEach((to, from, next) => {
-//     const userStore = userInfoStore();
-//     if (to.path === "/signupTest" || to.path === "/") {
-//         userStore.resetUserAccessToken();
-//         next();
-//     } else {
-//         if (!userStore.getUserAccessToken()) {
-//             next("/");
-//         }
-//         next();
-//     }
-// });
+router.beforeEach((to, from, next) => {
+    const userStore = userInfoStore();
+    if (to.path === "/signupTest" || to.path === "/") {
+        userStore.resetUserAccessToken();
+        next();
+    } else {
+        if (!userStore.getUserAccessToken()) {
+            next("/");
+        }
+        next();
+    }
+});
 
 export default router;
