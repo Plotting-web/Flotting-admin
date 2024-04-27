@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 const rejectReason = ref("");
+const managerComment = ref("");
 
 const router = useRouter();
 
@@ -48,6 +49,16 @@ async function reject(event) {
         </v-card-item>
         <v-container v-if="btnValue === 'Y'" fluid>
             <v-form @submit.prevent="approve">
+                <v-row>
+                    <v-col>
+                        <p class="text-h5">매니저 코멘트 입력</p>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col class="d-flex flex-column">
+                        <v-textarea v-model="managerComment" rows="5" auto-grow class="py-2" variant="outlined" label="매니저 코멘트"></v-textarea>
+                    </v-col>
+                </v-row>
                 <v-row>
                     <v-col>
                         <p class="text-h5">고객 등급 설정</p>

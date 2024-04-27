@@ -18,7 +18,7 @@ defineProps({
 });
 
 const headers = ref(USER_SEARCH_RESULT_HEADER_LIST);
-const clickItem = idx => emit("clickRow", idx);
+const clickItem = (idx, isApproved) => emit("clickRow", idx, isApproved);
 </script>
 
 <template>
@@ -47,7 +47,7 @@ const clickItem = idx => emit("clickRow", idx);
                 :hover="true"
             >
                 <template #item="{ item }">
-                    <tr class="cursor-pointer" @click="() => clickItem(item.idx)">
+                    <tr class="cursor-pointer" @click="() => clickItem(item.idx, item.isApproved)">
                         <td class="text-start">{{ item.name }}</td>
                         <td class="text-center">{{ item.submitDate }}</td>
                         <td class="text-center">{{ item.gender }}</td>

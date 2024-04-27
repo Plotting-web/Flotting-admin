@@ -25,9 +25,10 @@ function search(param) {
     }, 2000);
 }
 
-function onClickRow(idx) {
-    router.push("/mng/user/" + idx);
-}
+const onClickRow = (idx, isApproved) => {
+    if (isApproved === "INPROGRESS") router.push(`/reg/second/${idx}`);
+    else router.push(`/mng/user/${idx}`);
+};
 </script>
 
 <template>

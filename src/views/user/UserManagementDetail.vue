@@ -10,7 +10,7 @@ const router = useRouter();
 
 const breadcrumbs = ref([
     {
-        title: "기존 고객"
+        title: "고객"
     },
     {
         title: "고객 정보 검색",
