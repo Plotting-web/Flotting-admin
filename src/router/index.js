@@ -12,12 +12,10 @@ import RegisterSecondDetail from "@/views/reg/RegisterSecondDetail.vue";
 import ConsultManager from "@/views/cns/ConsultManager.vue";
 import ConsultUser from "@/views/cns/ConsultUser.vue";
 import ConsultManagerDetail from "@/views/cns/ConsultManagerDetail.vue";
-import AdminLogin from "@/views/login/AdminLogin.vue";
-import store from "@/plugins/vuex/store";
 import SystemManager from "@/views/sys/SystemManager.vue";
 import UserLogin from "@/views/login/UserLogin.vue";
 import SignupSimple from "@/views/signup/SignupSimple.vue";
-import { userInfoStore } from "@/components/store/user/userInfoStore";
+import PaymentManagement from "@/views/payment/PaymentManagement.vue";
 
 const routes = [
     { path: "/", component: UserLogin },
@@ -44,7 +42,9 @@ const routes = [
 
     { path: "/indicator", component: IndicatorManagement },
 
-    { path: "/sys/manager", component: SystemManager }
+    { path: "/sys/manager", component: SystemManager },
+
+    { path: "/payment/manager", component: PaymentManagement }
 ];
 
 const router = createRouter({

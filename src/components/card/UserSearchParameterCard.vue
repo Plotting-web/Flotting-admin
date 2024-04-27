@@ -308,4 +308,4 @@ watch(modalAge, newValue => {
     </v-card>
 </template>
 
-<style scoped></style>JOB_LIST,, DEFAULT_SEARCH_PARAMS, APPLIED_PATH_LIST, EDUCATION_LIST, IS_APPROVED_LIST
+<style scoped></style>

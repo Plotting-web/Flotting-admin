@@ -28,6 +28,7 @@
                 </template>
                 <v-list-item v-for="([title, to], i) in system" :key="i" :title="title" :value="title" :to="to"></v-list-item>
             </v-list-group>
+            <v-list-item :to="'/payment/manager'" prepend-icon="mdi-cash-multiple" title="결제 관리" value="payment/manager"></v-list-item>
         </v-list>
         <template #append>
             <div class="pa-2">
