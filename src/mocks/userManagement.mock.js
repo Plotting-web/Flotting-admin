@@ -1,0 +1,53 @@
+export const USER_MANAGEMENT_MOCK = [
+    {
+        idx: 1,
+        name: "강남1",
+        submitDate: "2024년 1월 1일 오후 1:12",
+        gender: "남",
+        height: 180,
+        education: "대졸",
+        job: "회사원",
+        managerId: "매니저1",
+        isApproved: "활성",
+        approvedAt: "2024년 1월 1일 오후 1:12",
+        appliedPath: "프립",
+        dormancy: "Y",
+        smoked: "비흡연",
+        address: "서울시 강남구",
+        age: 30
+    },
+    {
+        idx: 2,
+        name: "강남2",
+        submitDate: "2024년 1월 1일 오후 1:12",
+        gender: "남",
+        height: 180,
+        education: "대졸",
+        job: "회사원",
+        managerId: "매니저1",
+        isApproved: "활성",
+        approvedAt: "2024년 1월 1일 오후 1:12",
+        appliedPath: "프립",
+        dormancy: "Y",
+        smoked: "비흡연",
+        address: "서울시 강남구",
+        age: 30
+    },
+    {
+        idx: 3,
+        name: "강남3",
+        submitDate: "2024년 1월 1일 오후 1:12",
+        gender: "남",
+        height: 180,
+        education: "대졸",
+        job: "회사원",
+        managerId: "매니저1",
+        isApproved: "활성",
+        approvedAt: "2024년 1월 1일 오후 1:12",
+        appliedPath: "프립",
+        dormancy: "Y",
+        smoked: "비흡연",
+        address: "서울시 강남구",
+        age: 30
+    }
+];

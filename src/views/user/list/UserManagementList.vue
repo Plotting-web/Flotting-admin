@@ -1,4 +1,5 @@
 <script setup>
+import { USER_SEARCH_RESULT_HEADER_LIST } from "@/constant/userManagement.constant";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -16,19 +17,8 @@ defineProps({
     }
 });
 
-const headers = ref([
-    { title: "제출일자", key: "submitDate", align: "center", minWidth: "200px" },
-    { title: "실명", key: "name", align: "center", minWidth: "200px" },
-    { title: "거주지", key: "address", align: "start", minWidth: "200px" }
-]);
-
-function download() {
-    alert("엑셀 다운로드 구현 예정");
-}
-
-function clickItem(idx) {
-    emit("clickRow", idx);
-}
+const headers = ref(USER_SEARCH_RESULT_HEADER_LIST);
+const clickItem = idx => emit("clickRow", idx);
 </script>
 
 <template>
@@ -40,16 +30,13 @@ function clickItem(idx) {
                         조회 결과
                     </v-cardTitle>
                 </v-col>
-                <v-col class="d-flex justify-end">
-                    <v-btn size="small" class="ma-1" icon="mdi-microsoft-excel" @click="download"></v-btn>
-                </v-col>
             </v-row>
         </v-card-item>
         <v-divider></v-divider>
         <v-cardText>
             <v-data-table
-                :headers="headers"
                 :loading="loading"
+                :headers="headers"
                 :items="list"
                 :items-per-page="5"
                 :items-per-page-options="[
@@ -61,9 +48,20 @@ function clickItem(idx) {
             >
                 <template #item="{ item }">
                     <tr class="cursor-pointer" @click="() => clickItem(item.idx)">
+                        <td class="text-start">{{ item.name }}</td>
                         <td class="text-center">{{ item.submitDate }}</td>
-                        <td class="text-center">{{ item.name }}</td>
-                        <td class="text-start">{{ item.address }}</td>
+                        <td class="text-center">{{ item.gender }}</td>
+                        <td class="text-center">{{ item.height }}</td>
+                        <td class="text-center">{{ item.education }}</td>
+                        <td class="text-center">{{ item.job }}</td>
+                        <td class="text-center">{{ item.managerId }}</td>
+                        <td class="text-center">{{ item.isApproved }}</td>
+                        <td class="text-center">{{ item.approvedAt }}</td>
+                        <td class="text-center">{{ item.appliedPath }}</td>
+                        <td class="text-center">{{ item.dormancy }}</td>
+                        <td class="text-center">{{ item.smoked }}</td>
+                        <td class="text-center">{{ item.address }}</td>
+                        <td class="text-center">{{ item.age }}</td>
                     </tr>
                 </template>
             </v-data-table>

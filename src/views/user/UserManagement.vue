@@ -1,5 +1,6 @@
 <script setup>
 import UserSearchParameterCard from "@/components/card/UserSearchParameterCard.vue";
+import { USER_MANAGEMENT_MOCK } from "@/mocks/userManagement.mock";
 import UserManagementList from "@/views/user/list/UserManagementList.vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
@@ -7,7 +8,7 @@ const router = useRouter();
 
 const breadcrumbs = ref([
     {
-        title: "기존 고객"
+        title: "고객"
     },
     {
         title: "고객 정보 검색",
@@ -15,44 +16,7 @@ const breadcrumbs = ref([
     }
 ]);
 const loading = ref(false);
-const list = ref([
-    {
-        idx: 1,
-        submitDate: "2024년 1월 1일 오후 1:12",
-        name: "강남1",
-        address: "서울시 강남구1"
-    },
-    {
-        idx: 2,
-        submitDate: "2024년 1월 1일 오후 1:12",
-        name: "강남2",
-        address: "서울시 강남구2"
-    },
-    {
-        idx: 3,
-        submitDate: "2024년 1월 1일 오후 1:12",
-        name: "강남3",
-        address: "서울시 강남구3"
-    },
-    {
-        idx: 4,
-        submitDate: "2024년 1월 1일 오후 1:12",
-        name: "강남4",
-        address: "서울시 강남구4"
-    },
-    {
-        idx: 5,
-        submitDate: "2024년 1월 1일 오후 1:12",
-        name: "강남5",
-        address: "서울시 강남구5"
-    },
-    {
-        idx: 6,
-        submitDate: "2024년 1월 1일 오후 1:12",
-        name: "강남6",
-        address: "서울시 강남구6"
-    }
-]);
+const list = ref(USER_MANAGEMENT_MOCK);
 
 function search(param) {
     loading.value = true;

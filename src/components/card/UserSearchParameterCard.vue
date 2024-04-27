@@ -1,7 +1,16 @@
 <script setup>
+import {
+    RESIDENCE_LIST,
+    JOB_LIST,
+    DEFAULT_SEARCH_PARAMS,
+    APPLIED_PATH_LIST,
+    EDUCATION_LIST,
+    IS_APPROVED_LIST,
+    MANAGER_ID
+} from "@/constant/userManagement.constant";
 import { onBeforeMount, ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-
+import { useRoute } from "vue-router";
+// TODO : 승인 일자-기간 조회, 생년월일-기간 조회
 const props = defineProps({
     isKeep: {
         type: Boolean,
@@ -9,7 +18,6 @@ const props = defineProps({
     }
 });
 const emit = defineEmits(["search"]);
-const router = useRouter();
 const route = useRoute();
 
 onBeforeMount(() => {
@@ -28,49 +36,18 @@ onBeforeMount(() => {
     }
 });
 
-const searchParams = ref({
-    gender: null,
-    dormancy: "N",
-    grade: null,
-    form: null,
-    residence: null,
-    job: null,
-    height: [150, 200],
-    age: [20, 45],
-    smoked: null,
-    searchDate: [null, null]
-});
+const searchParams = ref(DEFAULT_SEARCH_PARAMS);
 const height = ref([150, 200]);
 const age = ref([20, 45]);
-
 const modalHeight = ref(false);
 const modalAge = ref(false);
-
-const forms = ref([
-    { title: "평균", value: "f1" },
-    { title: "슬림한", value: "f2" },
-    { title: "볼륨있는", value: "f3" },
-    { title: "탄탄한", value: "f4" },
-    { title: "통통한", value: "f5" },
-    { title: "듬직한", value: "f6" },
-    { title: "근육이 많은", value: "f7" }
-]);
-const residences = ref([
-    { title: "서울 북부", value: "r1" },
-    { title: "서울 남부", value: "r2" },
-    { title: "서울 서부", value: "r3" },
-    { title: "서울 동부", value: "r4" },
-    { title: "경기 서부", value: "r5" },
-    { title: "경기 남부", value: "r6" },
-    { title: "경기 동부", value: "r7" },
-    { title: "경기 북부", value: "r8" }
-]);
-const jobs = ref([
-    { title: "공무원/공기업", value: "j1" },
-    { title: "중견기업/대기업", value: "j2" },
-    { title: "전문직", value: "j3" },
-    { title: "사업가", value: "j4" }
-]);
+const residences = ref(RESIDENCE_LIST);
+const jobs = ref(JOB_LIST);
+const appliedPaths = ref(APPLIED_PATH_LIST);
+const educations = ref(EDUCATION_LIST);
+const isApproveds = ref(IS_APPROVED_LIST);
+const managerIds = ref(MANAGER_ID);
+const approvedAt = ref([new Date(), new Date()]);
 
 function search(param) {
     !!props.isKeep && localStorage.setItem(route.path, JSON.stringify(param));
@@ -78,18 +55,7 @@ function search(param) {
 }
 
 function reset() {
-    searchParams.value = {
-        gender: null,
-        dormancy: "N",
-        grade: null,
-        form: null,
-        residence: null,
-        job: null,
-        height: [150, 200],
-        age: [20, 45],
-        smoked: null,
-        searchDate: [null, null]
-    };
+    searchParams.value = DEFAULT_SEARCH_PARAMS;
     height.value = [150, 200];
     age.value = [20, 45];
 }
@@ -102,15 +68,10 @@ watch(
     { deep: true }
 );
 watch(modalHeight, newValue => {
-    if (!newValue) {
-        searchParams.value.height = height.value;
-    }
+    if (!newValue) searchParams.value.height = height.value;
 });
-
 watch(modalAge, newValue => {
-    if (!newValue) {
-        searchParams.value.age = age.value;
-    }
+    if (!newValue) searchParams.value.age = age.value;
 });
 </script>
 
@@ -141,7 +102,7 @@ watch(modalAge, newValue => {
                             </v-btn-toggle>
                         </v-sheet>
                         <v-sheet>
-                            <v-label class="mr-3">회원등급</v-label>
+                            <v-label class="mr-3">프로필 등급</v-label>
                             <v-btn-toggle v-model="searchParams.grade" variant="outlined" divided multiple>
                                 <v-btn icon="mdi-alpha-d-circle-outline" value="D"></v-btn>
                                 <v-btn icon="mdi-alpha-p-circle-outline" value="P"></v-btn>
@@ -156,7 +117,7 @@ watch(modalAge, newValue => {
                             </v-btn-toggle>
                         </v-sheet>
                         <v-sheet>
-                            <v-label class="mr-3">휴먼여부</v-label>
+                            <v-label class="mr-3">휴면여부</v-label>
                             <v-btn-toggle v-model="searchParams.dormancy" variant="outlined" divided multiple>
                                 <v-btn icon="mdi-alpha-y-circle-outline" value="Y"></v-btn>
                                 <v-btn icon="mdi-alpha-n-circle-outline" value="N"></v-btn>
@@ -170,23 +131,80 @@ watch(modalAge, newValue => {
                     <v-sheet class="d-flex ga-4 flex-wrap">
                         <v-sheet width="300px">
                             <v-select
-                                v-model="searchParams.form"
+                                v-model="searchParams.managerId"
                                 density="comfortable"
-                                clearable
-                                multiple
-                                label="체형"
-                                :items="forms"
+                                label="승인 매니저"
+                                :items="managerIds"
                                 variant="solo"
                                 hide-details
+                                clearable
+                                multiple
                             >
                                 <template #selection="{ item, index }">
                                     <span v-if="index < 1">{{ item.title }}</span>
                                     <span v-if="index === 1" class="text-grey text-caption align-self-center">
-                                        ( +{{ searchParams.form.length - 1 }} )
+                                        ( +{{ searchParams.managerId.length - 1 }} )
                                     </span>
                                 </template>
-                            </v-select>
-                        </v-sheet>
+                            </v-select></v-sheet
+                        >
+                        <v-sheet width="300px">
+                            <v-select
+                                v-model="searchParams.isApproved"
+                                density="comfortable"
+                                label="승인 여부"
+                                :items="isApproveds"
+                                variant="solo"
+                                hide-details
+                                clearable
+                                multiple
+                            >
+                                <template #selection="{ item, index }">
+                                    <span v-if="index < 1">{{ item.title }}</span>
+                                    <span v-if="index === 1" class="text-grey text-caption align-self-center">
+                                        ( +{{ searchParams.isApproved.length - 1 }} )
+                                    </span>
+                                </template>
+                            </v-select></v-sheet
+                        >
+                        <v-sheet width="300px">
+                            <v-select
+                                v-model="searchParams.education"
+                                density="comfortable"
+                                label="학력"
+                                :items="educations"
+                                variant="solo"
+                                hide-details
+                                clearable
+                                multiple
+                            >
+                                <template #selection="{ item, index }">
+                                    <span v-if="index < 1">{{ item.title }}</span>
+                                    <span v-if="index === 1" class="text-grey text-caption align-self-center">
+                                        ( +{{ searchParams.education.length - 1 }} )
+                                    </span>
+                                </template>
+                            </v-select></v-sheet
+                        >
+                        <v-sheet width="300px">
+                            <v-select
+                                v-model="searchParams.appliedPath"
+                                density="comfortable"
+                                label="신청 경로"
+                                :items="appliedPaths"
+                                variant="solo"
+                                hide-details
+                                clearable
+                                multiple
+                            >
+                                <template #selection="{ item, index }">
+                                    <span v-if="index < 1">{{ item.title }}</span>
+                                    <span v-if="index === 1" class="text-grey text-caption align-self-center">
+                                        ( +{{ searchParams.appliedPath.length - 1 }} )
+                                    </span>
+                                </template>
+                            </v-select></v-sheet
+                        >
                         <v-sheet width="300px">
                             <v-select
                                 v-model="searchParams.residence"
@@ -290,4 +308,4 @@ watch(modalAge, newValue => {
     </v-card>
 </template>
 
-<style scoped></style>
+<style scoped></style>JOB_LIST,, DEFAULT_SEARCH_PARAMS, APPLIED_PATH_LIST, EDUCATION_LIST, IS_APPROVED_LIST
