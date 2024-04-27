@@ -8,8 +8,6 @@ import UserNotice from "@/views/noti/user/UserNotice";
 import IndicatorManagement from "@/views/ind/IndicatorManagement";
 import UserManagementDetail from "@/views/user/UserManagementDetail.vue";
 import ProfileRequestedChangeDetail from "@/views/profile/ProfileRequestedChangeDetail.vue";
-import RegisterFirst from "@/views/reg/RegisterFirst.vue";
-import RegisterSecond from "@/views/reg/RegisterSecond.vue";
 import RegisterSecondDetail from "@/views/reg/RegisterSecondDetail.vue";
 import ConsultManager from "@/views/cns/ConsultManager.vue";
 import ConsultUser from "@/views/cns/ConsultUser.vue";
@@ -32,8 +30,9 @@ const routes = [
     { path: "/mng/profile", component: ProfileRequestedChange },
     { path: "/mng/profile/:id", component: ProfileRequestedChangeDetail },
 
-    { path: "/reg/first", component: RegisterFirst },
-    { path: "/reg/second", component: RegisterSecond },
+    // [신규 고객]/[기존 고객] -> [고객]으로 통합
+    // { path: "/reg/first", component: RegisterFirst },
+    // { path: "/reg/second", component: RegisterSecond },
     { path: "/reg/second/:id", component: RegisterSecondDetail },
 
     { path: "/cns/user", component: ConsultUser },
@@ -53,17 +52,17 @@ const router = createRouter({
     routes
 });
 
-router.beforeEach((to, from, next) => {
-    const userStore = userInfoStore();
-    if (to.path === "/signupTest" || to.path === "/") {
-        userStore.resetUserAccessToken();
-        next();
-    } else {
-        if (!userStore.getUserAccessToken()) {
-            next("/");
-        }
-        next();
-    }
-});
+// router.beforeEach((to, from, next) => {
+//     const userStore = userInfoStore();
+//     if (to.path === "/signupTest" || to.path === "/") {
+//         userStore.resetUserAccessToken();
+//         next();
+//     } else {
+//         if (!userStore.getUserAccessToken()) {
+//             next("/");
+//         }
+//         next();
+//     }
+// });
 
 export default router;

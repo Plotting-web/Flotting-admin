@@ -5,15 +5,9 @@
             <v-list-item :to="'/account'" prepend-icon="mdi-view-dashboard" title="Account" value="account"></v-list-item>
             <v-list-group value="ExistingManagement">
                 <template #activator="{ props }">
-                    <v-list-item v-bind="props" prepend-icon="mdi-account-circle" title="기존 고객"></v-list-item>
+                    <v-list-item v-bind="props" prepend-icon="mdi-account-circle" title="고객"></v-list-item>
                 </template>
                 <v-list-item v-for="([title, to], i) in existingManagement" :key="i" :title="title" :value="title" :to="to"></v-list-item>
-            </v-list-group>
-            <v-list-group value="NewManagement">
-                <template #activator="{ props }">
-                    <v-list-item v-bind="props" prepend-icon="mdi-account-circle-outline" title="신규 고객"></v-list-item>
-                </template>
-                <v-list-item v-for="([title, to], i) in newManagement" :key="i" :title="title" :value="title" :to="to"></v-list-item>
             </v-list-group>
             <v-list-group value="ExistingConsulting">
                 <template #activator="{ props }">
@@ -57,10 +51,6 @@ const open = ref([""]);
 const existingManagement = ref([
     ["고객 정보 검색", "/mng/user"],
     ["프로필 변경 요청", "/mng/profile"]
-]);
-const newManagement = ref([
-    ["1차 등록 고객", "/reg/first"],
-    ["2차 등록 고객", "/reg/second"]
 ]);
 const existingConsulting = ref([
     ["고객 CS 응대", "/cns/user"],
