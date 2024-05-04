@@ -10,7 +10,10 @@ import {
 } from "@/constant/userManagement.constant";
 import { onBeforeMount, ref, watch } from "vue";
 import { useRoute } from "vue-router";
-// TODO : 승인 일자-기간 조회, 생년월일-기간 조회
+import { DatePicker } from "v-calendar";
+import dayjs from "dayjs";
+import "v-calendar/style.css";
+
 const props = defineProps({
     isKeep: {
         type: Boolean,
@@ -36,18 +39,34 @@ onBeforeMount(() => {
     }
 });
 
+// params
 const searchParams = ref(DEFAULT_SEARCH_PARAMS);
-const height = ref([150, 200]);
 const age = ref([20, 45]);
-const modalHeight = ref(false);
-const modalAge = ref(false);
+const height = ref([150, 200]);
 const residences = ref(RESIDENCE_LIST);
 const jobs = ref(JOB_LIST);
 const appliedPaths = ref(APPLIED_PATH_LIST);
 const educations = ref(EDUCATION_LIST);
 const isApproveds = ref(IS_APPROVED_LIST);
 const managerIds = ref(MANAGER_ID);
-const approvedAt = ref([new Date(), new Date()]);
+const approvedAt = ref({
+    start: dayjs()
+        .subtract(7, "day")
+        .toDate(),
+    end: new Date()
+});
+const birthday = ref({
+    start: dayjs()
+        .subtract(7, "day")
+        .toDate(),
+    end: new Date()
+});
+
+// modal state
+const modalAge = ref(false);
+const modalHeight = ref(false);
+const modalApprovedAt = ref(false);
+const modalBirthday = ref(false);
 
 function search(param) {
     !!props.isKeep && localStorage.setItem(route.path, JSON.stringify(param));
@@ -72,6 +91,12 @@ watch(modalHeight, newValue => {
 });
 watch(modalAge, newValue => {
     if (!newValue) searchParams.value.age = age.value;
+});
+watch(modalApprovedAt, newValue => {
+    if (!newValue) searchParams.value.approvedAt = approvedAt.value;
+});
+watch(modalBirthday, newValue => {
+    if (!newValue) searchParams.value.birthday = birthday.value;
 });
 </script>
 
@@ -251,6 +276,7 @@ watch(modalAge, newValue => {
                 <v-col>
                     <v-sheet class="d-flex ga-4 flex-wrap">
                         <v-sheet>
+                            <!-- 나이 -->
                             <v-menu v-model="modalAge" :close-on-content-click="false" location="bottom">
                                 <template #activator="{ props }">
                                     <v-btn v-bind="props" width="100%" height="48px">{{
@@ -272,6 +298,7 @@ watch(modalAge, newValue => {
                                 </v-card>
                             </v-menu>
                         </v-sheet>
+                        <!-- 키 -->
                         <v-sheet>
                             <v-menu v-model="modalHeight" :close-on-content-click="false" location="bottom">
                                 <template #activator="{ props }">
@@ -295,6 +322,60 @@ watch(modalAge, newValue => {
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <v-btn variant="text" @click="modalHeight = false">
+                                            확인
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-menu>
+                        </v-sheet>
+                        <!-- 승인 일자 -->
+                        <v-sheet>
+                            <v-menu v-model="modalApprovedAt" :close-on-content-click="false" location="bottom">
+                                <template #activator="{ props }">
+                                    <v-btn v-bind="props" width="100%" height="48px">{{
+                                        `승인 일자 ${dayjs(searchParams.approvedAt.start).format("YYYY.MM.DD")}
+                                        ~ ${dayjs(searchParams.approvedAt.end).format("YYYY.MM.DD")}`
+                                    }}</v-btn>
+                                </template>
+                                <v-card min-width="300">
+                                    <v-card-title>승인 일자</v-card-title>
+                                    <v-card-text>
+                                        <DatePicker
+                                            v-model.range="approvedAt"
+                                            mode="dateTime"
+                                            :hide-time-header="true"
+                                            :min-date="new Date(2024, 5, 1)"
+                                            :max-date="new Date(2024, 7, 1)"
+                                        />
+                                    </v-card-text>
+                                    <v-divider></v-divider>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn variant="text" @click="modalApprovedAt = false">
+                                            확인
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-menu>
+                        </v-sheet>
+                        <!-- 생년 월일 -->
+                        <v-sheet>
+                            <v-menu v-model="modalBirthday" :close-on-content-click="false" location="bottom">
+                                <template #activator="{ props }">
+                                    <v-btn v-bind="props" width="100%" height="48px">{{
+                                        `생년월일 ${dayjs(searchParams.birthday.start).format("YYYY.MM.DD")}
+                                        ~ ${dayjs(searchParams.birthday.end).format("YYYY.MM.DD")}`
+                                    }}</v-btn>
+                                </template>
+                                <v-card min-width="300">
+                                    <v-card-title>생년월일</v-card-title>
+                                    <v-card-text>
+                                        <DatePicker v-model.range="birthday" mode="dateTime" :hide-time-header="true" />
+                                    </v-card-text>
+                                    <v-divider></v-divider>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn variant="text" @click="modalBirthDay = false">
                                             확인
                                         </v-btn>
                                     </v-card-actions>

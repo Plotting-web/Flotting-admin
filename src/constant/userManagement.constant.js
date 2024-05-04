@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export const RESIDENCE_LIST = [
     { title: "서울 북부", value: "r1" },
     { title: "서울 남부", value: "r2" },
@@ -31,7 +33,18 @@ export const DEFAULT_SEARCH_PARAMS = {
     education: null,
     isApproved: null,
     managerId: null,
-    approvedAt: [new Date(), new Date()]
+    approvedAt: {
+        start: dayjs()
+            .subtract(7, "day")
+            .toDate(),
+        end: new Date()
+    },
+    birthday: {
+        start: dayjs()
+            .subtract(7, "day")
+            .toDate(),
+        end: new Date()
+    }
 };
 
 export const APPLIED_PATH_LIST = [

@@ -4,6 +4,8 @@ import dayjs from "dayjs";
 import { MOCK_PAYMENT_MANAGEMENT } from "@/mocks/paymentManagement.mock";
 import { PAYMENT_MANAGEMENT_HEADER_LIST, IS_DEPOSIT_LIST } from "@/constant/paymentManagement.constant";
 import { formatNumberToCurrency } from "@/util/number";
+import { DatePicker } from "v-calendar";
+import "v-calendar/style.css";
 
 const noteDialog = ref(false);
 const currentNote = ref("");
@@ -23,6 +25,14 @@ const userName = ref("");
 const isDeposit = ref(false);
 const isDeposits = ref(IS_DEPOSIT_LIST);
 
+const depositRange = ref({
+    start: dayjs()
+        .subtract(7, "day")
+        .toDate(),
+    end: new Date()
+});
+const depositDateModal = ref(false);
+
 const confirmDeposit = () => {
     if (window.confirm("입금 확인을 하시겠습니까?")) {
         isDeposit.value = true;
@@ -31,6 +41,12 @@ const confirmDeposit = () => {
 const reset = () => {
     userName.value = "";
     isDeposit.value = false;
+    depositRange.value = {
+        start: dayjs()
+            .subtract(7, "day")
+            .toDate(),
+        end: new Date()
+    };
 };
 </script>
 
@@ -50,8 +66,30 @@ const reset = () => {
     <v-container>
         <v-row class="d-flex align-center">
             <v-col class="d-flex align-center">
-                <v-label class="mr-3 ">신청 일자</v-label>
-                <!-- TODO -->
+                <v-label class="mr-3 ">입금 일자</v-label>
+                <v-sheet>
+                    <v-menu v-model="depositDateModal" :close-on-content-click="false" location="bottom">
+                        <template #activator="{ props }">
+                            <v-btn v-bind="props" width="100%" height="48px">{{
+                                `입금 일자 ${dayjs(depositRange.start).format("YYYY.MM.DD")}
+                                        ~ ${dayjs(depositRange.end).format("YYYY.MM.DD")}`
+                            }}</v-btn>
+                        </template>
+                        <v-card min-width="300">
+                            <v-card-title>입금 일자</v-card-title>
+                            <v-card-text>
+                                <DatePicker v-model.range="depositRange" mode="dateTime" :hide-time-header="true" />
+                            </v-card-text>
+                            <v-divider></v-divider>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn variant="text" @click="modalApprovedAt = false">
+                                    확인
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-menu>
+                </v-sheet>
             </v-col>
             <v-col class="d-flex align-center">
                 <v-label class="mr-3">입금 여부</v-label>
